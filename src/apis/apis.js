@@ -1,6 +1,7 @@
 import axios from 'axios';
 import auth from '@/apis/modules/auth';
 import user from '@/apis/modules/user';
+import product from '@/apis/modules/product';
 import store from '@/store';
 
 axios.defaults.baseURL = process.env.VUE_APP_URL;
@@ -19,4 +20,5 @@ axios.interceptors.request.use(config => {
 export default {
     auth,
     user,
+    product,
 }

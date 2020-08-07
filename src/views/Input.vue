@@ -6,27 +6,31 @@
                     <van-form @submit="onSubmitSelectSubject">
                         <van-row>
                             <van-col>
-                                <van-field
-                                        readonly
-                                        clickable
-                                        name="subject"
-                                        :value="selectSubject.name"
-                                        label="入库科目"
-                                        :placeholder="this.pickerName"
-                                        @click="showSelect"
-                                />
+                                <div class="field-login van-hairline--bottom">
+                                    <van-field
+                                            readonly
+                                            clickable
+                                            name="subject"
+                                            :value="selectSubject.name"
+                                            label="入库科目"
+                                            :placeholder="this.pickerName"
+                                            @click="showSelect"
+                                    />
+                                </div>
                             </van-col>
                         </van-row>
                         <van-row>
                             <van-col>
-                                <van-field v-model="selectSubject.num" label="入库数量" placeholder="请输入入库数量">
-                                    <template #button>
-                                        {{selectSubject.unit}}
-                                    </template>
-                                </van-field>
+                                <div class="field-login van-hairline--bottom">
+                                    <van-field v-model="selectSubject.num" label="入库数量" placeholder="请输入入库数量">
+                                        <template #button>
+                                            {{selectSubject.unit}}
+                                        </template>
+                                    </van-field>
+                                </div>
                             </van-col>
                         </van-row>
-                        <div style="margin: 16px;">
+                        <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
                                 入库
                             </van-button>
@@ -50,27 +54,31 @@
                     <van-form @submit="onSubmitSelectSubject">
                         <van-row>
                             <van-col>
-                                <van-field
-                                        readonly
-                                        clickable
-                                        name="subject"
-                                        :value="selectSubject.name"
-                                        label="出库科目"
-                                        :placeholder="this.pickerName"
-                                        @click="showSelect"
-                                />
+                                <div class="field-login van-hairline--bottom">
+                                    <van-field
+                                            readonly
+                                            clickable
+                                            name="subject"
+                                            :value="selectSubject.name"
+                                            label="出库科目"
+                                            :placeholder="this.pickerName"
+                                            @click="showSelect"
+                                    />
+                                </div>
                             </van-col>
                         </van-row>
                         <van-row>
                             <van-col>
-                                <van-field v-model="selectSubject.num" label="出库数量" placeholder="请输入入出库数量">
-                                    <template #button>
-                                        {{selectSubject.unit}}
-                                    </template>
-                                </van-field>
+                                <div class="field-login van-hairline--bottom">
+                                    <van-field v-model="selectSubject.num" label="出库数量" placeholder="请输入入出库数量">
+                                        <template #button>
+                                            {{selectSubject.unit}}
+                                        </template>
+                                    </van-field>
+                                </div>
                             </van-col>
                         </van-row>
-                        <div style="margin: 16px;">
+                        <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
                                 入库
                             </van-button>
@@ -94,7 +102,7 @@
 <script>
 
     import Vue from 'vue';
-    import {Tab, Tabs, Picker, Popup, Col, Row, Form, Button, Field} from 'vant';
+    import {Tab, Tabs, Picker, Popup, Col, Row, Form, Button, Field, Toast} from 'vant';
 
     Vue.use(Button);
     Vue.use(Field);
@@ -105,30 +113,41 @@
     Vue.use(Picker);
     Vue.use(Tab);
     Vue.use(Tabs);
+    Vue.use(Toast);
+
+    import apis from '@/apis/apis';
+
     export default {
         name: "Input",
         data() {
             return {
                 selectSubject: {
-                    'id': 0,
-                    'num': 0,
+                    'product_id': '',
+                    'name': '',
+                    'num': '',
                     'unit': '单位',
+                    'action':'input'
                 },
                 pickerName: '请选择需要入库的科目',
                 selectSubjectShow: false,
                 selectSubjectUnit: '',
 
                 activeName: 'input',
-                subjects: [
-                    {'id': 1, 'text': '2012春茶半成品', 'unit': '斤'},
-                    {'id': 2, 'text': '2012夏茶罐装', 'unit': '罐'}
-                ],
+                subjects: [],
             };
         },
         methods: {
+            queryProductSelectList() {
+                apis.product.productSelectList().then(res => {
+                    this.subjects = res.data.data;
+                }).catch(err => {
+                    Toast.fail('网络错误')
+                    console.log(err);
+                })
+            },
             onConfirmSelectSubject(value) {
                 this.selectSubject.name = value.text;
-                this.selectSubject.id = value.id;
+                this.selectSubject.product_id = value.id;
                 this.selectSubject.unit = value.unit;
                 this.selectSubjectShow = false;
             },
@@ -139,7 +158,11 @@
                 this.selectSubjectShow = true;
             },
             onSubmitSelectSubject() {
-
+                apis.product.operation(this.selectSubject).then(res=>{
+                    Toast.success(res.data.msg);
+                }).catch(err=>{
+                    console.log(err)
+                })
             },
             onChangeTab(name) {
                 if (name === 'input') {
@@ -148,15 +171,24 @@
                     this.pickerName = '请选择需要出库的科目';
                 }
                 this.selectSubject = {
-                    'id': 0,
-                    'num': 0,
-                    'unit': '单位'
+                    'product_id': '',
+                    'name': '',
+                    'num': '',
+                    'unit': '单位',
+                    'action':name,
                 }
+                console.log(this.selectSubject)
             },
+        },
+        mounted() {
+            this.queryProductSelectList();
         },
     }
 </script>
 
 <style scoped>
-
+    .field-login {
+        margin: 40px 20px 0 20px;
+        /*border-bottom: darkgrey 1px solid;*/
+    }
 </style>
