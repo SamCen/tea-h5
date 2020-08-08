@@ -53,7 +53,8 @@
                 Toast.fail(value);
                 this.SET_LOGIN_FAIL();
             },
-            code() {
+            code(value) {
+                console.log(value);
                 this.$router.replace({
                     path: '/bindUser'
                 })
