@@ -6,7 +6,7 @@ import Statistics from '../views/Statistics.vue'
 import WechatLoading from '../views/WechatLoading.vue'
 import BindUser from '../views/BindUser.vue'
 import store from '@/store';
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
     {

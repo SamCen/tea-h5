@@ -23,7 +23,6 @@
         name: "WechatLoading",
         data() {
             return {
-                code: this.$route.query.code,
                 loginParams: {
                     'code': this.$route.query.code,
                 }
@@ -60,6 +59,7 @@
             }
         },
         mounted() {
+            this.loginParams.code = this.$route.query.code;
             this.wxLogin(this.loginParams);
             console.log('mounted:' + this.code);
             console.log(this.access_token);
