@@ -1,6 +1,6 @@
 <template>
     <van-tabs v-model="active">
-        <van-tab title="账号密码登录" style="font-size: large">
+        <van-tab name="pwd" title="账号密码登录" style="font-size: large">
             <van-form @submit="onSubmit" validate-first @failed="onFailed">
                 <div class="field-login van-hairline--bottom">
                     <van-field
@@ -41,7 +41,7 @@
                 </div>
             </van-form>
         </van-tab>
-        <van-tab title="微信授权登录" style="font-size: large">
+        <van-tab name="openid" title="微信授权登录" style="font-size: large">
             <div class="wx-login-btn">
                 <van-button round type="info" size="large" @click="wechatLogin">授权登录</van-button>
             </div>
@@ -71,7 +71,7 @@
                     username: '',
                     password: ''
                 },
-                active: '',
+                active: 'openid',
                 userSelectShow: false,
                 userSelectList: [],
             }

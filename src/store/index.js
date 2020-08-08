@@ -49,7 +49,7 @@ export default new Vuex.Store({
               commit('SET_ROLE', res.data.data.role);
               commit('SET_CODE',null);
             }).catch(err => {
-                commit('SET_LOGIN_FAIL', err.response.data.msg);
+                commit('SET_LOGIN_FAIL', err.response.data.data.msg);
             });
         },
         wxLogin({commit},params){
@@ -61,8 +61,7 @@ export default new Vuex.Store({
                     commit('SET_CODE',res.data.data.code);
                 }
             }).catch(err => {
-                console.log(err);
-                commit('SET_LOGIN_FAIL', err.response.data.msg);
+                commit('SET_LOGIN_FAIL', err.response.data.data.msg);
             });
         },
         bindUser({commit},params){
@@ -71,8 +70,7 @@ export default new Vuex.Store({
                 commit('SET_ROLE', res.data.data.role);
                 commit('SET_CODE',null);
             }).catch(err=>{
-                console.log(err.response);
-                commit('SET_LOGIN_FAIL', err.response.data.msg);
+                commit('SET_LOGIN_FAIL', err.response.data.data.msg);
             })
         }
     },
