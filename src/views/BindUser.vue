@@ -36,7 +36,7 @@
             return {
                 bindParams: {
                     'phone': '',
-                    'code': this.code,
+                    'code': '',
                 },
             }
         },
@@ -48,6 +48,7 @@
                 'SET_LOGIN_FAIL'
             ]),
             onBindSubmit() {
+                this.bindParams.code = this.code;
                 this.bindUser(this.bindParams)
             }
         },

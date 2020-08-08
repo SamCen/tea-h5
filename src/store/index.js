@@ -11,7 +11,7 @@ export default new Vuex.Store({
         access_token: localStorage.getItem('access_token'),
         user_role: localStorage.getItem('user_role'),
         loginFail: null,
-        code:localStorage.getItem('wx_code'),
+        code:localStorage.getItem('code'),
     },
     mutations: {
         SET_TOKEN: (state, access_token = null) => {
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                 commit('SET_ROLE', res.data.data.role);
                 commit('SET_CODE',null);
             }).catch(err=>{
-                console.log(err);
+                console.log(err.response);
                 commit('SET_LOGIN_FAIL', err.response.data.msg);
             })
         }

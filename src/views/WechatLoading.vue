@@ -56,9 +56,8 @@
         },
         mounted() {
             this.wxLogin(this.loginParams);
-            this.$router.replace({
-                path: '/bindUser'
-            })
+            console.log(this.code);
+            console.log(this.access_token);
         },
         computed: {
             ...mapState({
