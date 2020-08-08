@@ -53,15 +53,12 @@
                 Toast.fail(value);
                 this.SET_LOGIN_FAIL();
             },
-            code(value) {
-                console.log(value);
-                this.$router.replace({
-                    path: '/bindUser'
-                })
-            }
         },
         mounted() {
-            this.wxLogin(this.loginParams)
+            this.wxLogin(this.loginParams);
+            this.$router.replace({
+                path: '/bindUser'
+            })
         },
         computed: {
             ...mapState({
