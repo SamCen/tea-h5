@@ -11,23 +11,26 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        redirect: '/login'
+        redirect: '/login',
+        meta:{index:1,title: '天象科技'},
     },
     {
         path: '/wechatLoading',
         name: 'wechatLoading',
-        component: WechatLoading
+        component: WechatLoading,
+        meta:{index:1,title: '微信授权登录'},
 
     },
     {
         path: '/login',
         name: 'Login',
-
+        meta:{index:1,title: '用户登录'},
         component: Login,
     },
     {
         path: '/statistics',
         name: 'Statistics',
+        meta:{index:1,title: '数据统计'},
         beforeEnter: (to, from, next) => {
             /**
              * 验证用户是否登录
@@ -45,6 +48,7 @@ const routes = [
     {
         path: '/input',
         name: 'Input',
+        meta:{index:1,title: '数据录入'},
         beforeEnter: (to, from, next) => {
             /**
              * 验证用户是否登录
@@ -62,7 +66,8 @@ const routes = [
     {
         path: '/bindUser',
         name: 'BindUser',
-        component: BindUser
+        component: BindUser,
+        meta:{index:1,title: '绑定用户'},
     }
 ]
 
