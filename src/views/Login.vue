@@ -107,7 +107,8 @@
                 })
             },
             wechatLogin(){
-                let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6e99bf728fc7b9b5&redirect_uri=http://www.samccc.cn/wechatLoading&response_type=code&scope=snsapi_userinfo&state=#wechat_redirec';
+                let redirect_uri = encodeURIComponent('http://www.samccc.cn/wechatLoading');
+                let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6e99bf728fc7b9b5&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirec';
                 window.location.href = url;
             }
         },
