@@ -53,7 +53,7 @@
 <script>
     import Vue from 'vue';
     import {Form, Button, Field, Tab, Tabs, Toast} from 'vant';
-    import {mapActions, mapState} from 'vuex'
+    import {mapActions, mapState, mapMutations} from 'vuex'
     import apis from '@/apis/apis';
 
     Vue.use(Button);
@@ -79,6 +79,9 @@
         methods: {
             ...mapActions([
                 'login',
+            ]),
+            ...mapMutations([
+                'SET_LOGIN_FAIL'
             ]),
             onSubmit() {
                 this.login(this.loginParams);
@@ -106,9 +109,9 @@
                     Toast.fail('网络错误')
                 })
             },
-            wechatLogin(){
+            wechatLogin() {
                 let redirect_uri = encodeURIComponent('http://www.samccc.cn/wechatLoading');
-                let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6e99bf728fc7b9b5&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect';
+                let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6e99bf728fc7b9b5&redirect_uri=' + redirect_uri + '&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect';
                 window.location.href = url;
             }
         },
@@ -119,6 +122,15 @@
                         path: '/input'
                     })
                 }
+                if (this.user_role === 2) { //管理
+                    this.$router.replace({
+                        path: '/statistics'
+                    })
+                }
+            },
+            loginFail(value) {
+                Toast.fail(value);
+                this.SET_LOGIN_FAIL();
             }
         },
         mounted() {
@@ -127,17 +139,18 @@
         computed: {
             ...mapState({
                 user_role: state => state.user_role,
+                loginFail: state => state.loginFail,
             }),
         },
     }
 </script>
 
 <style scoped>
-    .field-login{
-        margin:40px 20px 0 20px;
-        /*border-bottom: darkgrey 1px solid;*/
+    .field-login {
+        margin: 40px 20px 0 20px;
     }
-    .wx-login-btn{
+
+    .wx-login-btn {
         margin: 30% 30px;
     }
 </style>

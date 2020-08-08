@@ -189,6 +189,5 @@
 <style scoped>
     .field-login {
         margin: 40px 20px 0 20px;
-        /*border-bottom: darkgrey 1px solid;*/
     }
 </style>
