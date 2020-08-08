@@ -141,7 +141,7 @@
                 apis.product.productSelectList().then(res => {
                     this.subjects = res.data.data;
                 }).catch(err => {
-                    Toast.fail('网络错误')
+                    Toast('网络错误')
                     console.log(err);
                 })
             },

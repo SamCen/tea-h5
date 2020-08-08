@@ -66,7 +66,9 @@
                 }
             },
             loginFail(value) {
-                Toast.fail(value);
+                if(value){
+                    Toast(value);
+                }
                 this.SET_LOGIN_FAIL();
             }
         },

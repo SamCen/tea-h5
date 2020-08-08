@@ -13,7 +13,6 @@
     import Vue from 'vue';
     import {Divider} from 'vant';
     import {mapState} from 'vuex';
-
     Vue.use(Divider);
     export default {
         name: "Statistics",
