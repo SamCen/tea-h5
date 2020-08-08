@@ -32,7 +32,7 @@
                         </van-row>
                         <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
-                                入库
+                                提交
                             </van-button>
                         </div>
                     </van-form>
@@ -80,7 +80,7 @@
                         </van-row>
                         <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
-                                入库
+                                提交
                             </van-button>
                         </div>
                     </van-form>
