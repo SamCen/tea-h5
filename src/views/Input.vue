@@ -134,6 +134,7 @@
 
                 activeName: 'input',
                 subjects: [],
+                operation:'入库',
             };
         },
         methods: {
@@ -159,15 +160,18 @@
             },
             onSubmitSelectSubject() {
                 apis.product.operation(this.selectSubject).then(res=>{
-                    Toast.success(res.data.msg);
+                    console.log(res);
+                    Toast.success(this.operation+"成功");
                 }).catch(err=>{
-                    console.log(err)
+                    Toast.fail(err.response.data.msg)
                 })
             },
             onChangeTab(name) {
                 if (name === 'input') {
+                    this.operation = '入库';
                     this.pickerName = '请选择需要入库的科目';
                 } else if (name === 'output') {
+                    this.operation = '出库';
                     this.pickerName = '请选择需要出库的科目';
                 }
                 this.selectSubject = {
@@ -177,7 +181,6 @@
                     'unit': '单位',
                     'action':name,
                 }
-                console.log(this.selectSubject)
             },
         },
         mounted() {
