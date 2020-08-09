@@ -5,28 +5,170 @@
                          :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
             >数据统计
             </van-divider>
+            <van-row>
+                <van-col offset="6" span="12">
+                    <van-field
+                            readonly
+                            clickable
+                            name="subject"
+                            :value="summaryQueryData.product_name"
+                            label="查询产品"
+                            @click="showSelect"
+                    />
+                </van-col>
+            </van-row>
+            <van-row>
+                <van-col offset="6" span="12">
+                    <van-cell title="开始日期" :value="summaryQueryData.beginDate" @click="showBeginDate"/>
+                    <van-calendar v-model="beginDateShow" :show-confirm="false" @confirm="onConfirmBeginDate"/>
+                </van-col>
+            </van-row>
+            <van-row>
+                <van-col offset="6" span="12">
+                    <van-cell title="结束日期" :value="summaryQueryData.endDate" @click="showEndDate"/>
+                    <van-calendar v-model="endDateShow" :show-confirm="false" @confirm="onConfirmEndDate"/>
+                </van-col>
+            </van-row>
+            <van-divider content-position="left"
+                         :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
+            >
+            </van-divider>
+            <van-row>
+                <van-collapse v-model="activeNames">
+                    <van-collapse-item :title=item.product_name :key="index" :name=item.product_name
+                                       v-for="(item,index) in sumStatisticsList">
+                        <van-row type="flex" justify="space-between">
+                            <van-col span="12">入库：</van-col>
+                            <van-col span="12">{{item.input?item.input:0}}{{item.product_unit}}</van-col>
+                        </van-row>
+                        <van-row type="flex" justify="space-between">
+                            <van-col span="12">出库：</van-col>
+                            <van-col span="12">{{item.output?item.output:0}}{{item.product_unit}}</van-col>
+                        </van-row>
+                        <van-row type="flex" justify="space-between">
+                            <van-col span="12">库存：</van-col>
+                            <van-col span="12">{{(item.input?item.input:0) - (item.output?item.output:0)}}{{item.product_unit}}</van-col>
+                        </van-row>
+                    </van-collapse-item>
+                </van-collapse>
+            </van-row>
+
+            <van-popup v-model="selectSubjectShow" position="bottom">
+                <van-picker
+                        title="产品"
+                        show-toolbar
+                        :columns="productList"
+                        @confirm="onConfirmSelectSubject"
+                        @cancel="onCancelSelectSubject"
+                />
+            </van-popup>
         </van-col>
     </van-row>
 </template>
 
 <script>
     import Vue from 'vue';
-    import {Divider} from 'vant';
     import {mapState} from 'vuex';
+    import {Cell, CellGroup, Calendar, Field, Form, Collapse, CollapseItem, Divider, Toast} from 'vant';
+
+    Vue.use(Field);
+    Vue.use(Form);
+    Vue.use(Collapse);
+    Vue.use(CollapseItem);
     Vue.use(Divider);
+    Vue.use(Toast);
+    Vue.use(Calendar);
+    Vue.use(Cell);
+    Vue.use(CellGroup);
+
+    import apis from '@/apis/apis';
+
     export default {
         name: "Statistics",
+        data() {
+            return {
+                summaryQueryData: {
+                    product_id: 0,
+                    product_name: '全部',
+                    beginDate: '',
+                    endDate: ''
+                },
+                beginDateShow: false,
+                endDateShow: false,
+                activeNames: [],
+                sumStatisticsList: [],
+                productList: [
+                    {
+                        id: 0,
+                        text: '全部',
+                        unit:'',
+                    }
+                ],
+                selectSubjectShow: false,
+            }
+        },
         methods: {
+            queryProductSelectList() {
+                apis.product.productSelectList().then(res => {
+                    this.productList = this.productList.concat(res.data.data);
+                }).catch(err => {
+                    Toast('网络错误')
+                    console.log(err);
+                })
+            },
+            formatDate(date) {
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            },
             checkRole() {
-                if(this.user_role == 1){
+                if (this.user_role == 1) {
                     this.$router.replace({
                         path: '/input'
                     })
                 }
-            }
+            },
+            onConfirmSelectSubject(value) {
+                this.summaryQueryData.product_name = value.text;
+                this.summaryQueryData.product_id = value.id;
+                this.selectSubjectShow = false;
+                this.query_statistics();
+            },
+            onCancelSelectSubject() {
+                this.selectSubjectShow = false;
+            },
+            showSelect() {
+                this.selectSubjectShow = true;
+            },
+            showBeginDate() {
+                this.beginDateShow = true;
+            },
+            showEndDate() {
+                this.endDateShow = true;
+            },
+            query_statistics() {
+                apis.statistics.sumStatistics(this.summaryQueryData).then(res => {
+                    this.sumStatisticsList = res.data.data;
+                    for (let i in this.sumStatisticsList) {
+                        Vue.set(this.activeNames, i, this.sumStatisticsList[i].product_name)
+                    }
+                }).catch(err => {
+                    Toast.fail(err.response.data.msg)
+                });
+            },
+            onConfirmBeginDate(date) {
+                this.summaryQueryData.beginDate = this.formatDate(date);
+                this.beginDateShow = false;
+                this.query_statistics();
+            },
+            onConfirmEndDate(date) {
+                this.summaryQueryData.endDate = this.formatDate(date);
+                this.endDateShow = false;
+                this.query_statistics();
+            },
         },
         mounted() {
             this.checkRole();
+            this.query_statistics();
+            this.queryProductSelectList();
         },
         computed: {
             ...mapState({

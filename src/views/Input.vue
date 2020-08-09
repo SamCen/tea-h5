@@ -12,7 +12,7 @@
                                             clickable
                                             name="subject"
                                             :value="selectSubject.name"
-                                            label="入库科目"
+                                            label="入库产品"
                                             :placeholder="this.pickerName"
                                             @click="showSelect"
                                     />
@@ -36,15 +36,7 @@
                             </van-button>
                         </div>
                     </van-form>
-                    <van-popup v-model="selectSubjectShow" position="bottom">
-                        <van-picker
-                                title="入库科目"
-                                show-toolbar
-                                :columns="subjects"
-                                @confirm="onConfirmSelectSubject"
-                                @cancel="onCancelSelectSubject"
-                        />
-                    </van-popup>
+
                 </van-col>
             </van-row>
         </van-tab>
@@ -60,7 +52,7 @@
                                             clickable
                                             name="subject"
                                             :value="selectSubject.name"
-                                            label="出库科目"
+                                            label="出库产品"
                                             :placeholder="this.pickerName"
                                             @click="showSelect"
                                     />
@@ -84,18 +76,18 @@
                             </van-button>
                         </div>
                     </van-form>
-                    <van-popup v-model="selectSubjectShow" position="bottom">
-                        <van-picker
-                                title="出库科目"
-                                show-toolbar
-                                :columns="subjects"
-                                @confirm="onConfirmSelectSubject"
-                                @cancel="onCancelSelectSubject"
-                        />
-                    </van-popup>
                 </van-col>
             </van-row>
         </van-tab>
+        <van-popup v-model="selectSubjectShow" position="bottom">
+            <van-picker
+                    title="产品"
+                    show-toolbar
+                    :columns="subjects"
+                    @confirm="onConfirmSelectSubject"
+                    @cancel="onCancelSelectSubject"
+            />
+        </van-popup>
     </van-tabs>
 </template>
 
@@ -162,6 +154,13 @@
                 apis.product.operation(this.selectSubject).then(res=>{
                     console.log(res);
                     Toast.success(this.operation+"成功");
+                    this.selectSubject = {
+                        'product_id': '',
+                        'name': '',
+                        'num': '',
+                        'unit': '单位',
+                        'action':name,
+                    }
                 }).catch(err=>{
                     Toast.fail(err.response.data.msg)
                 })
