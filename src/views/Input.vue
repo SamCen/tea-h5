@@ -159,7 +159,7 @@
                         'name': '',
                         'num': '',
                         'unit': '单位',
-                        'action':name,
+                        'action':this.activeNames,
                     }
                 }).catch(err=>{
                     Toast.fail(err.response.data.msg)

@@ -1,32 +1,33 @@
 <template>
     <van-row>
         <van-col span="24">
-            <van-divider content-position="left"
-                         :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
+            <van-divider
+                    :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
             >数据统计
             </van-divider>
             <van-row>
                 <van-col offset="6" span="12">
                     <van-field
+                            :style="{  padding: '0 16px',fontSize:'20px' }"
                             readonly
                             clickable
                             name="subject"
                             :value="summaryQueryData.product_name"
-                            label="查询产品"
+                            label="查询产品："
                             @click="showSelect"
                     />
                 </van-col>
             </van-row>
             <van-row>
                 <van-col offset="6" span="12">
-                    <van-cell title="开始日期" :value="summaryQueryData.beginDate" @click="showBeginDate"/>
-                    <van-calendar v-model="beginDateShow" :show-confirm="false" @confirm="onConfirmBeginDate"/>
+                    <van-cell title="开始日期："  :style="{  padding: '0 16px',fontSize:'20px' }" :value="summaryQueryData.beginDate" @click="showBeginDate"/>
+                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="beginDateShow" :show-confirm="false" @confirm="onConfirmBeginDate"/>
                 </van-col>
             </van-row>
             <van-row>
                 <van-col offset="6" span="12">
-                    <van-cell title="结束日期" :value="summaryQueryData.endDate" @click="showEndDate"/>
-                    <van-calendar v-model="endDateShow" :show-confirm="false" @confirm="onConfirmEndDate"/>
+                    <van-cell title="结束日期："  :style="{  padding: '0 16px',fontSize:'20px' }" :value="summaryQueryData.endDate" @click="showEndDate"/>
+                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="endDateShow" :show-confirm="false" @confirm="onConfirmEndDate"/>
                 </van-col>
             </van-row>
             <van-divider content-position="left"
@@ -35,19 +36,21 @@
             </van-divider>
             <van-row>
                 <van-collapse v-model="activeNames">
-                    <van-collapse-item :title=item.product_name :key="index" :name=item.product_name
+                    <van-collapse-item  :style="{  padding: '0 16px',fontSize:'20px' }" :title=item.product_name :key="index" :name=item.product_name
                                        v-for="(item,index) in sumStatisticsList">
                         <van-row type="flex" justify="space-between">
-                            <van-col span="12">入库：</van-col>
-                            <van-col span="12">{{item.input?item.input:0}}{{item.product_unit}}</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">入库：</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.input?item.input:0}}{{item.product_unit}}</van-col>
                         </van-row>
                         <van-row type="flex" justify="space-between">
-                            <van-col span="12">出库：</van-col>
-                            <van-col span="12">{{item.output?item.output:0}}{{item.product_unit}}</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">出库：</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.output?item.output:0}}{{item.product_unit}}</van-col>
                         </van-row>
                         <van-row type="flex" justify="space-between">
-                            <van-col span="12">库存：</van-col>
-                            <van-col span="12">{{(item.input?item.input:0) - (item.output?item.output:0)}}{{item.product_unit}}</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">库存：</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{(item.input?item.input:0) -
+                                (item.output?item.output:0)}}{{item.product_unit}}
+                            </van-col>
                         </van-row>
                     </van-collapse-item>
                 </van-collapse>
@@ -87,6 +90,8 @@
         name: "Statistics",
         data() {
             return {
+                minDate: new Date(2019, 1, 1),
+                maxDate: new Date(2050, 12, 31),
                 summaryQueryData: {
                     product_id: 0,
                     product_name: '全部',
@@ -101,7 +106,7 @@
                     {
                         id: 0,
                         text: '全部',
-                        unit:'',
+                        unit: '',
                     }
                 ],
                 selectSubjectShow: false,
