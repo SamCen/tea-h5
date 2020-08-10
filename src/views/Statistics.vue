@@ -37,16 +37,15 @@
                         </template>
                         <van-row type="flex" justify="space-between">
                             <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">入库：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.input?item.input:0}}{{item.product_unit}}</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.input}}{{item.product_unit}}</van-col>
                         </van-row>
                         <van-row type="flex" justify="space-between">
                             <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">出库：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.output?item.output:0}}{{item.product_unit}}</van-col>
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.output}}{{item.product_unit}}</van-col>
                         </van-row>
                         <van-row type="flex" justify="space-between">
                             <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">库存：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{(item.input?item.input:0) -
-                                (item.output?item.output:0)}}{{item.product_unit}}
+                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.storage}}{{item.product_unit}}
                             </van-col>
                         </van-row>
                     </van-collapse-item>
