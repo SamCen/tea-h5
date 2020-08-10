@@ -159,8 +159,9 @@
                         'name': '',
                         'num': '',
                         'unit': '单位',
-                        'action':this.activeNames,
+                        'action':this.activeName,
                     }
+                    console.log(this.activeName);
                 }).catch(err=>{
                     Toast.fail(err.response.data.msg)
                 })
@@ -189,6 +190,9 @@
 </script>
 
 <style scoped>
+    .van-cell__title > span{
+        font-size: 20px !important;
+    }
     .field-login {
         margin: 40px 20px 0 20px;
     }
