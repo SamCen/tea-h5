@@ -3,7 +3,7 @@
         <van-col span="24">
             <van-divider
                     :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px',fontSize:'20px'  }"
-            >数据统计
+            >茶场库存统计
             </van-divider>
             <van-row>
                 <van-col offset="3" span="18">

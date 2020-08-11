@@ -62,7 +62,7 @@
                         <van-row>
                             <van-col>
                                 <div class="field-login van-hairline--bottom">
-                                    <van-field v-model="selectSubject.num" label="出库数量" placeholder="请输入入出库数量">
+                                    <van-field v-model="selectSubject.num" label="出库数量" placeholder="请输入出库数量">
                                         <template #button>
                                             {{selectSubject.unit}}
                                         </template>
@@ -169,10 +169,10 @@
             onChangeTab(name) {
                 if (name === 'input') {
                     this.operation = '入库';
-                    this.pickerName = '请选择需要入库的科目';
+                    this.pickerName = '请选择需要入库的产品';
                 } else if (name === 'output') {
                     this.operation = '出库';
-                    this.pickerName = '请选择需要出库的科目';
+                    this.pickerName = '请选择需要出库的产品';
                 }
                 this.selectSubject = {
                     'product_id': '',

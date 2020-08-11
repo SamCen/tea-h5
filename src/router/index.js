@@ -30,7 +30,7 @@ const routes = [
     {
         path: '/statistics',
         name: 'Statistics',
-        meta:{index:1,title: '数据统计'},
+        meta:{index:1,title: '茶场库存统计'},
         beforeEnter: (to, from, next) => {
             /**
              * 验证用户是否登录
