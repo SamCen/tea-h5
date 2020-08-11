@@ -120,7 +120,7 @@
                     'unit': '单位',
                     'action':'input'
                 },
-                pickerName: '请选择需要入库的科目',
+                pickerName: '请选择需要入库的产品',
                 selectSubjectShow: false,
                 selectSubjectUnit: '',
 
@@ -134,8 +134,7 @@
                 apis.product.productSelectList().then(res => {
                     this.subjects = res.data.data;
                 }).catch(err => {
-                    Toast('网络错误')
-                    console.log(err);
+                    Toast(err.response.data.msg)
                 })
             },
             onConfirmSelectSubject(value) {
