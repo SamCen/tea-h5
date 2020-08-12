@@ -7,21 +7,27 @@
             </van-divider>
             <van-row>
                 <van-col offset="3" span="18">
-                    <van-cell title="查询产品："  :style="{  padding: '0 16px',fontSize:'18px' }" :value="summaryQueryData.product_name" is-link arrow-direction="down" @click="showSelect"/>
+                    <van-cell title="查询产品：" :style="{  padding: '0 16px',fontSize:'18px' }"
+                              :value="summaryQueryData.product_name" is-link arrow-direction="down"
+                              @click="showSelect"/>
                 </van-col>
             </van-row>
             <br>
             <van-row>
                 <van-col offset="3" span="18">
-                    <van-cell title="开始日期："  :style="{  padding: '0 16px',fontSize:'18px' }" is-link arrow-direction="down" :value="summaryQueryData.beginDate" @click="showBeginDate"/>
-                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="beginDateShow"  :show-confirm="false" @confirm="onConfirmBeginDate"/>
+                    <van-cell title="开始日期：" :style="{  padding: '0 16px',fontSize:'18px' }" is-link
+                              arrow-direction="down" :value="summaryQueryData.beginDate" @click="showBeginDate"/>
+                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="beginDateShow" :show-confirm="false"
+                                  @confirm="onConfirmBeginDate"/>
                 </van-col>
             </van-row>
             <br>
             <van-row>
                 <van-col offset="3" span="18">
-                    <van-cell title="结束日期："  :style="{  padding: '0 16px',fontSize:'18px' }" is-link arrow-direction="down" :value="summaryQueryData.endDate" @click="showEndDate"/>
-                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="endDateShow" :show-confirm="false" @confirm="onConfirmEndDate"/>
+                    <van-cell title="结束日期：" :style="{  padding: '0 16px',fontSize:'18px' }" is-link
+                              arrow-direction="down" :value="summaryQueryData.endDate" @click="showEndDate"/>
+                    <van-calendar :min-date="minDate" :max-date="maxDate" v-model="endDateShow" :show-confirm="false"
+                                  @confirm="onConfirmEndDate"/>
                 </van-col>
             </van-row>
             <van-divider content-position="left"
@@ -30,25 +36,41 @@
             </van-divider>
             <van-row>
                 <van-collapse v-model="activeNames">
-                    <van-collapse-item  :key="index" :name=item.product_name
+                    <van-collapse-item color="#1989fa" background="#ecf9ff" :key="index" :name=item.product_name
                                        v-for="(item,index) in sumStatisticsList">
                         <template #title>
-                            <div :style="{padding: '0 16px',fontSize:'20px'}">{{item.product_name}} </div>
+                            <div :style="{ padding: '0 16px',fontSize:'20px'}">{{item.product_name}}</div>
                         </template>
                         <van-row type="flex" justify="space-between">
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">入库：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.input}}{{item.product_unit}}</van-col>
-                        </van-row>
-                        <van-row type="flex" justify="space-between">
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">出库：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.output}}{{item.product_unit}}</van-col>
-                        </van-row>
-                        <van-row type="flex" justify="space-between">
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">库存：</van-col>
-                            <van-col  :style="{  padding: '0 16px',fontSize:'20px' }" span="12">{{item.storage}}{{item.product_unit}}
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px' ,color:'#1989fa'}" span="12">
+                                入库
+                            </van-col>
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px' ,color:'#1989fa'}" span="12">
+                                {{item.input}}{{item.product_unit}}
                             </van-col>
                         </van-row>
+                        <van-row type="flex" justify="space-between">
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px',color:'#ee0a24' }" span="12">
+                                出库
+                            </van-col>
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px' ,color:'#ee0a24'}" span="12">
+                                {{item.output}}{{item.product_unit}}
+                            </van-col>
+                        </van-row>
+                        <van-row type="flex" justify="space-between">
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px' ,color:'#07c160'}" span="12">
+                                库存
+                            </van-col>
+                            <van-col :style="{  padding: '0 16px',fontSize:'20px' ,color:'#07c160'}" span="12">
+                                {{item.storage}}{{item.product_unit}}
+                            </van-col>
+                        </van-row>
+                        <van-divider
+                                :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
+                        >
+                        </van-divider>
                     </van-collapse-item>
+
                 </van-collapse>
             </van-row>
 
@@ -68,7 +90,7 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    import {Cell, CellGroup, Calendar, Field, Form, Collapse, CollapseItem, Divider, Toast} from 'vant';
+    import {Cell,Button, CellGroup, Calendar, Field, Form, Collapse, CollapseItem, Divider, Toast} from 'vant';
 
     Vue.use(Field);
     Vue.use(Form);
@@ -79,7 +101,7 @@
     Vue.use(Calendar);
     Vue.use(Cell);
     Vue.use(CellGroup);
-
+    Vue.use(Button);
     import apis from '@/apis/apis';
 
     export default {
