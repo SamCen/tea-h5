@@ -3,7 +3,7 @@
         <van-col span="24">
             <van-divider
                     :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px',fontSize:'20px'  }"
-            >茶场库存统计
+            >产品出入库明细
             </van-divider>
             <van-row>
                 <van-col offset="3" span="18">
@@ -35,9 +35,9 @@
             >
             </van-divider>
             <van-row>
-                <van-collapse v-model="activeNames">
+                <van-collapse v-model="productActiveNames">
                     <van-collapse-item color="#1989fa" background="#ecf9ff" :key="index" :name=item.product_name
-                                       v-for="(item,index) in sumStatisticsList">
+                                       v-for="(item,index) in sumStatisticsList.productList">
                         <template #title>
                             <div :style="{ padding: '0 16px',fontSize:'20px'}">{{item.product_name}}</div>
                         </template>
@@ -74,6 +74,18 @@
                 </van-collapse>
             </van-row>
 
+            <van-divider
+                    :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px',fontSize:'20px'  }"
+            >库存汇总
+            </van-divider>
+            <van-row v-for="item in categorySumList" :key="item.id">
+                <van-col :style="{  padding: '0 16px',fontSize:'20px',margin:'16px 0'}" span="12">
+                    {{item.category_name}}
+                </van-col>
+                <van-col :style="{  padding: '0 16px',fontSize:'20px',margin:'16px 0'}" span="12">
+                    {{item.storage}}{{item.product_unit}}
+                </van-col>
+            </van-row>
             <van-popup v-model="selectSubjectShow" position="bottom">
                 <van-picker
                         title="产品"
@@ -90,7 +102,20 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    import {Cell,Button, CellGroup, Calendar, Field, Form, Collapse, CollapseItem, Divider, Toast} from 'vant';
+    import {
+        Tab,
+        Tabs,
+        Cell,
+        Button,
+        CellGroup,
+        Calendar,
+        Field,
+        Form,
+        Collapse,
+        CollapseItem,
+        Divider,
+        Toast
+    } from 'vant';
 
     Vue.use(Field);
     Vue.use(Form);
@@ -102,6 +127,8 @@
     Vue.use(Cell);
     Vue.use(CellGroup);
     Vue.use(Button);
+    Vue.use(Tab);
+    Vue.use(Tabs);
     import apis from '@/apis/apis';
 
     export default {
@@ -116,10 +143,14 @@
                     beginDate: '',
                     endDate: ''
                 },
+                listTab: 'product',
                 beginDateShow: false,
                 endDateShow: false,
-                activeNames: [],
-                sumStatisticsList: [],
+                productActiveNames: [],
+                sumStatisticsList: {
+                    productList: [],
+                },
+                categorySumList: [],
                 productList: [
                     {
                         id: 0,
@@ -153,7 +184,7 @@
                 this.summaryQueryData.product_name = value.text;
                 this.summaryQueryData.product_id = value.id;
                 this.selectSubjectShow = false;
-                this.query_statistics();
+                this.queryStatistics();
             },
             onCancelSelectSubject() {
                 this.selectSubjectShow = false;
@@ -167,12 +198,19 @@
             showEndDate() {
                 this.endDateShow = true;
             },
-            query_statistics() {
+            queryStatistics() {
                 apis.statistics.sumStatistics(this.summaryQueryData).then(res => {
                     this.sumStatisticsList = res.data.data;
-                    for (let i in this.sumStatisticsList) {
-                        Vue.set(this.activeNames, i, this.sumStatisticsList[i].product_name)
+                    for (let i in this.sumStatisticsList.productList) {
+                        Vue.set(this.productActiveNames, i, this.sumStatisticsList.productList[i].product_name)
                     }
+                }).catch(err => {
+                    Toast.fail(err.response.data.msg)
+                });
+            },
+            queryCategorySum() {
+                apis.statistics.categorySum().then(res => {
+                    this.categorySumList = res.data.data;
                 }).catch(err => {
                     Toast.fail(err.response.data.msg)
                 });
@@ -180,12 +218,12 @@
             onConfirmBeginDate(date) {
                 this.summaryQueryData.beginDate = this.formatDate(date);
                 this.beginDateShow = false;
-                this.query_statistics();
+                this.queryStatistics();
             },
             onConfirmEndDate(date) {
                 this.summaryQueryData.endDate = this.formatDate(date);
                 this.endDateShow = false;
-                this.query_statistics();
+                this.queryStatistics();
             },
         },
         mounted() {
@@ -193,8 +231,9 @@
             this.summaryQueryData.beginDate = this.formatDate(date);
             this.summaryQueryData.endDate = this.formatDate(date);
             this.checkRole();
-            this.query_statistics();
+            this.queryStatistics();
             this.queryProductSelectList();
+            this.queryCategorySum();
         },
         computed: {
             ...mapState({

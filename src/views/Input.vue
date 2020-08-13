@@ -31,6 +31,11 @@
                             </van-col>
                         </van-row>
                         <div style="margin: 40px;">
+                            <van-button round block type="danger" native-type="button" @click="fixSubmit">
+                                修正提交
+                            </van-button>
+                        </div>
+                        <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
                                 提交
                             </van-button>
@@ -70,6 +75,11 @@
                                 </div>
                             </van-col>
                         </van-row>
+                        <div style="margin: 40px;">
+                            <van-button round block type="danger" native-type="button" @click="fixSubmit">
+                                修正提交
+                            </van-button>
+                        </div>
                         <div style="margin: 40px;">
                             <van-button round block type="info" native-type="submit">
                                 提交
@@ -118,7 +128,7 @@
                     'name': '',
                     'num': '',
                     'unit': '单位',
-                    'action':'input'
+                    'action': 'input'
                 },
                 pickerName: '请选择需要入库的产品',
                 selectSubjectShow: false,
@@ -126,10 +136,32 @@
 
                 activeName: 'input',
                 subjects: [],
-                operation:'入库',
+                operation: '入库',
             };
         },
         methods: {
+            fixSubmit() {
+                this.selectSubject.action = '';
+                if (this.activeName === 'input') {
+                    this.selectSubject.action = 'fix_input';
+                }
+                if (this.activeName === 'output') {
+                    this.selectSubject.action = 'fix_output';
+                }
+                apis.product.operation(this.selectSubject).then(res => {
+                    console.log(res);
+                    Toast.success(this.operation+"修复录入成功");
+                    this.selectSubject = {
+                        'product_id': '',
+                        'name': '',
+                        'num': '',
+                        'unit': '单位',
+                        'action': this.activeName,
+                    }
+                }).catch(err => {
+                    Toast.fail(err.response.data.msg)
+                })
+            },
             queryProductSelectList() {
                 apis.product.productSelectList().then(res => {
                     this.subjects = res.data.data;
@@ -150,18 +182,17 @@
                 this.selectSubjectShow = true;
             },
             onSubmitSelectSubject() {
-                apis.product.operation(this.selectSubject).then(res=>{
+                apis.product.operation(this.selectSubject).then(res => {
                     console.log(res);
-                    Toast.success(this.operation+"成功");
+                    Toast.success(this.operation + "成功");
                     this.selectSubject = {
                         'product_id': '',
                         'name': '',
                         'num': '',
                         'unit': '单位',
-                        'action':this.activeName,
+                        'action': this.activeName,
                     }
-                    console.log(this.activeName);
-                }).catch(err=>{
+                }).catch(err => {
                     Toast.fail(err.response.data.msg)
                 })
             },
@@ -178,7 +209,7 @@
                     'name': '',
                     'num': '',
                     'unit': '单位',
-                    'action':name,
+                    'action': name,
                 }
             },
         },
@@ -189,9 +220,10 @@
 </script>
 
 <style scoped>
-    .van-cell__title > span{
+    .van-cell__title > span {
         font-size: 20px !important;
     }
+
     .field-login {
         margin: 40px 20px 0 20px;
     }

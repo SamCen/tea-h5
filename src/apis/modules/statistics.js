@@ -7,4 +7,7 @@ export default {
             params:params,
         });
     },
+    categorySum() {
+        return axios.get('common/categorySum');
+    },
 }
