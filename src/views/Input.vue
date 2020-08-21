@@ -223,10 +223,8 @@
                 }
             },
         },
-        beforeCreate(){
-            this.userInfo();
-        },
         mounted() {
+            this.userInfo();
             this.queryProductSelectList();
         },
     }

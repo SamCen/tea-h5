@@ -235,10 +235,8 @@
                 this.queryStatistics();
             },
         },
-        beforeCreate(){
-            this.userInfo();
-        },
         mounted() {
+            this.userInfo();
             let date = new Date();
             this.summaryQueryData.beginDate = this.formatDate(date);
             this.summaryQueryData.endDate = this.formatDate(date);
