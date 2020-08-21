@@ -223,7 +223,7 @@
                 }
             },
         },
-        created(){
+        beforeCreate(){
             this.userInfo();
         },
         mounted() {

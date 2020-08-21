@@ -235,7 +235,7 @@
                 this.queryStatistics();
             },
         },
-        created(){
+        beforeCreate(){
             this.userInfo();
         },
         mounted() {
