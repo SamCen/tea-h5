@@ -45,7 +45,8 @@
                 'bindUser',
             ]),
             ...mapMutations([
-                'SET_LOGIN_FAIL'
+                'SET_LOGIN_FAIL',
+                'SET_ROLE'
             ]),
             onBindSubmit() {
                 this.bindParams.code = this.code;
@@ -53,16 +54,20 @@
             }
         },
         watch: {
-            user_role() {
-                if (this.user_role === 1) { //数据输入角色
-                    this.$router.replace({
-                        path: '/input'
-                    })
-                }
-                if (this.user_role === 2) { //管理
-                    this.$router.replace({
-                        path: '/statistics'
-                    })
+            user_role(value) {
+                if(value){
+                    if (value === 1) { //数据输入角色
+                        this.SET_ROLE();
+                        this.$router.replace({
+                            path: '/input'
+                        })
+                    }
+                    if (value === 2) { //管理
+                        this.SET_ROLE();
+                        this.$router.replace({
+                            path: '/statistics'
+                        })
+                    }
                 }
             },
             loginFail(value) {

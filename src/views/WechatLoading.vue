@@ -33,19 +33,25 @@
                 'wxLogin',
             ]),
             ...mapMutations([
-                'SET_LOGIN_FAIL'
+                'SET_LOGIN_FAIL',
+                'SET_ROLE'
             ]),
         },
         watch: {
-            access_token() {
-                if (this.user_role === 1) { //数据输入角色
-                    this.$router.replace({
-                        path: '/input'
-                    })
-                } else if (this.user_role === 2) {
-                    this.$router.replace({
-                        path: '/statistics'
-                    })
+            user_role(value) {
+                if(value){
+                    if (value === 1) { //数据输入角色
+                        this.SET_ROLE();
+                        this.$router.replace({
+                            path: '/input'
+                        })
+                    }
+                    if (value === 2) { //管理
+                        this.SET_ROLE();
+                        this.$router.replace({
+                            path: '/statistics'
+                        })
+                    }
                 }
             },
             loginFail(value) {
@@ -63,8 +69,6 @@
         mounted() {
             this.loginParams.code = this.$route.query.code;
             this.wxLogin(this.loginParams);
-            console.log('mounted:' + this.code);
-            console.log(this.access_token);
         },
         computed: {
             ...mapState({

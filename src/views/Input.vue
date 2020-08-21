@@ -162,6 +162,16 @@
                     Toast.fail(err.response.data.msg)
                 })
             },
+            userInfo(){
+                apis.user.userInfo().then().catch(err=>{
+                    console.log(err.response.status);
+                    if(err.response.status == 401){
+                        this.$router.replace({
+                            path: '/login'
+                        })
+                    }
+                })
+            },
             queryProductSelectList() {
                 apis.product.productSelectList().then(res => {
                     this.subjects = res.data.data;
@@ -214,6 +224,7 @@
             },
         },
         mounted() {
+            this.userInfo();
             this.queryProductSelectList();
         },
     }

@@ -173,12 +173,21 @@
             formatDate(date) {
                 return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
             },
-            checkRole() {
-                if (this.user_role == 1) {
-                    this.$router.replace({
-                        path: '/input'
-                    })
-                }
+            userInfo(){
+                apis.user.userInfo().then(res=>{
+                    let data = res.data.data;
+                    if(data.role == 1){
+                        this.$router.replace({
+                            path: '/input'
+                        })
+                    }
+                }).catch(err=>{
+                    if(err.response.status == 401){
+                        this.$router.replace({
+                            path: '/login'
+                        })
+                    }
+                })
             },
             onConfirmSelectSubject(value) {
                 this.summaryQueryData.product_name = value.text;
@@ -227,10 +236,10 @@
             },
         },
         mounted() {
+            this.userInfo();
             let date = new Date();
             this.summaryQueryData.beginDate = this.formatDate(date);
             this.summaryQueryData.endDate = this.formatDate(date);
-            this.checkRole();
             this.queryStatistics();
             this.queryProductSelectList();
             this.queryCategorySum();
