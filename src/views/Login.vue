@@ -67,6 +67,7 @@
         name: "Login",
         data() {
             return {
+                redirect_uri:process.env.VUE_APP_URL,
                 loginParams: {
                     username: '',
                     password: ''
@@ -111,7 +112,7 @@
                 })
             },
             wechatLogin() {
-                let redirect_uri = encodeURIComponent('http://www.samccc.cn/wechatLoading');
+                let redirect_uri = encodeURIComponent(process.env.REDIRECT_URI);
                 let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6e99bf728fc7b9b5&redirect_uri=' + redirect_uri + '&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect';
                 window.location.href = url;
             }
