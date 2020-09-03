@@ -10,8 +10,6 @@ router.beforeEach((to, from, next) => {
   }
   next()
 });
-
-Vue.prototype.redirectUri = process.env.VUE_REDIRECT_URI;
 Vue.config.productionTip = false;
 import 'vant/lib/index.css'
 new Vue({
