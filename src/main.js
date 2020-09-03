@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-
 /* 路由发生变化修改页面title */
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
@@ -12,6 +11,7 @@ router.beforeEach((to, from, next) => {
   next()
 });
 
+Vue.prototype.redirectUri = process.env.VUE_REDIRECT_URI;
 Vue.config.productionTip = false;
 import 'vant/lib/index.css'
 new Vue({
